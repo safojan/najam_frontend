@@ -14,7 +14,7 @@ import './Team.css'
 const teamData = [
   {
     name: 'NIBTAHIL NAFEES',
-    role: 'PRODUCT MANAGER',
+    role: 'AI ENGINEER',
     image: profile1,
     social: {
       github: 'https://github.com/nibtahil',
@@ -34,7 +34,7 @@ const teamData = [
   },
   {
     name: 'NAJAM ALI ABBAS',
-    role: 'WEB DEVELOPER',
+    role: 'WEB DEVELOPER & DESIGNER',
     image: profile3,
     social: {
       github: 'https://github.com/najamaliabbas',
