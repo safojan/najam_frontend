@@ -1,6 +1,6 @@
 import { useInView } from 'react-intersection-observer'
 import { Link as RouterLink } from 'react-router-dom'
-import heroImage from '../assets/campus.jpg'  // ← swap with your own
+import heroImage from '../assets/ch.gif'  // ← swap with your own
 import './Hero.css'
 
 const Hero = () => {

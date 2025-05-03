@@ -196,3 +196,182 @@ export default Team
 .team-social a:hover {
   transform: scale(1.2);
 }
+
+
+// src/components/Hero.jsx
+import { useInView } from 'react-intersection-observer'
+import { Link as RouterLink } from 'react-router-dom'
+import heroVideo from '../assets/ch.gif'  // your large horizontal demo video/gif
+import './Hero.css'
+
+const Hero = () => {
+  const [titleRef,    titleInView]    = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [videoRef,    videoInView]    = useInView({ triggerOnce: true, threshold: 0.1, delay: 200 })
+  const [taglineRef,  taglineInView]  = useInView({ triggerOnce: true, threshold: 0.1, delay: 400 })
+  const [subtitleRef, subtitleInView] = useInView({ triggerOnce: true, threshold: 0.1, delay: 600 })
+  const [buttonRef,   buttonInView]   = useInView({ triggerOnce: true, threshold: 0.1, delay: 800 })
+
+  return (
+    <section className="hero">
+      <div className="hero-container">
+        {/* Title */}
+        <h1
+          ref={titleRef}
+          className={`hero-title ${titleInView ? 'visible' : ''}`}
+        >
+          CampusHive
+        </h1>
+
+        {/* Video/GIF */}
+        <div
+          ref={videoRef}
+          className={`hero-video ${videoInView ? 'visible' : ''}`}
+        >
+          <img src={heroVideo} alt="CampusHive Demo" />
+        </div>
+
+        {/* Tagline */}
+        <p
+          ref={taglineRef}
+          className={`hero-tagline ${taglineInView ? 'visible' : ''}`}
+        >
+          Empowering FAST University’s Students and Faculty with Intelligent Campus Agents
+        </p>
+
+        {/* Subtitle */}
+        <p
+          ref={subtitleRef}
+          className={`hero-subtitle ${subtitleInView ? 'visible' : ''}`}
+        >
+          Automate announcements, quizzes, timetables, compliance checks and more—right from one smart interface.
+        </p>
+
+        {/* Call to Action */}
+        <div
+          ref={buttonRef}
+          className={`hero-cta ${buttonInView ? 'visible' : ''}`}
+        >
+          <RouterLink to="/signup">
+            <button className="btn btn-primary">
+              Get Started
+            </button>
+          </RouterLink>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default Hero
+
+/* ------------------------------------------------------ */
+
+/* src/components/Hero.css */
+.hero {
+  background: #121212;
+  color: #eee;
+  padding: 4rem 1rem;
+}
+
+.hero-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+.hero-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-video {
+  width: 100%;
+  max-width: 900px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease 0.2s;
+}
+.hero-video.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero-video img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.hero-tagline {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #00d462;
+  text-align: center;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease 0.4s;
+}
+.hero-tagline.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease 0.6s;
+}
+.hero-subtitle.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-cta {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease 0.8s;
+}
+.hero-cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero-cta .btn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  background: #00d462;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero-cta .btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 212, 98, 0.4);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-container {
+    gap: 1.5rem;
+  }
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .hero-tagline {
+    font-size: 1.3rem;
+  }
+}
