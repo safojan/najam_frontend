@@ -1,0 +1,102 @@
+* ------------------------------------------------------ */
+
+/* src/components/Team.css */
+.team {
+  padding: 4rem 1rem;
+  background: #121212;
+  color: #eee;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+.section-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.3s;
+}
+.team-grid.visible {
+  opacity: 1;
+}
+
+/* card */
+.team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.stagger-children .team-card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s forwards;
+}
+.stagger-children.visible .team-card:nth-child(1) { animation-delay: 0.2s; }
+.stagger-children.visible .team-card:nth-child(2) { animation-delay: 0.4s; }
+.stagger-children.visible .team-card:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* image */
+.team-img-wrap {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.team-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.team-img-wrap:hover .team-image {
+  transform: scale(1.05);
+}
+
+/* text */
+.team-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+.team-role {
+  color: #aaa;
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+/* social icons */
+.team-social {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.team-social a {
+  color: #00d462;
+  font-size: 1.25rem;
+  transition: transform 0.2s;
+}
+.team-social a:hover {
+  transform: scale(1.2);
+}
