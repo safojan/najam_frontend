@@ -1,377 +1,225 @@
-// src/components/Team.jsx
+// src/components/Features.jsx
 import React from 'react'
 import { useInView } from 'react-intersection-observer'
-import {
-  FaGithub,
-  FaLinkedin,
-  FaEnvelope,
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
+import { 
+  FaBolt, 
+  FaShieldAlt, 
+  FaChartBar, 
+  FaSearch,
+  FaLock,
+  FaServer
 } from 'react-icons/fa'
-import profile1 from '../assets/profile/nibtahil.png'
-import profile2 from '../assets/profile/faizan.png'
-import profile3 from '../assets/profile/najam.png'
-import './Team.css'
+import './Features.css'
 
-const teamData = [
+const featuresData = [
   {
-    name: 'NIBTAHIL NAFEES',
-    role: 'PRODUCT MANAGER',
-    image: profile1,
-    social: {
-      github: 'https://github.com/nibtahil',
-      linkedin: 'https://linkedin.com/in/nibtahil',
-      email: 'mailto:nibtahil@example.com',
-    },
+    icon: <FaBolt />,
+    title: 'Exam Gen',
+    description: 'Automatically generate and customize exams with AI-powered question banks.'
   },
   {
-    name: 'FAIZAN KARMAT',
-    role: 'AI ENGINEER',
-    image: profile2,
-    social: {
-      github: 'https://github.com/faizankarmat',
-      linkedin: 'https://linkedin.com/in/faizankarmat',
-      email: 'mailto:faizan@example.com',
-    },
+    icon: <FaShieldAlt />,
+    title: 'Faculty Info',
+    description: 'Instant access to faculty profiles, publications, and office hours.'
   },
   {
-    name: 'NAJAM ALI ABBAS',
-    role: 'WEB DEVELOPER',
-    image: profile3,
-    social: {
-      github: 'https://github.com/najamaliabbas',
-      linkedin: 'https://linkedin.com/in/najamaliabbas',
-      email: 'mailto:najam@example.com',
-    },
+    icon: <FaChartBar />,
+    title: 'Real-Time Monitoring',
+    description: 'Get live alerts and analytics on campus activities and resource usage.'
   },
+  {
+    icon: <FaSearch />,
+    title: 'Instant Analysis',
+    description: 'Search and analyze data trends across courses, attendance, and exams.'
+  },
+  {
+    icon: <FaLock />,
+    title: 'Secure Transactions',
+    description: 'Encrypted data handling for all student records and financial transactions.'
+  },
+  {
+    icon: <FaServer />,
+    title: 'Cloud Integration',
+    description: 'Seamless cloud backup and restore for all university databases.'
+  }
 ]
 
-const Team = () => {
-  const [titleRef,    titleInView] = useInView({ triggerOnce: true, threshold: 0.1 })
-  const [gridRef,     gridInView]  = useInView({ triggerOnce: true, threshold: 0.1 })
+const Features = () => {
+  const [titleRef, titleInView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [featuresRef, featuresInView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const navigate = useNavigate()
+
+  const handleDemo = () => {
+    // limited demo access flag
+    navigate('/chat?demo=true')
+  }
 
   return (
-    <section id="team" className="team">
+    <section id="features" className="features">
       <div className="container">
         <h2
           ref={titleRef}
           className={`section-title fade-in ${titleInView ? 'visible' : ''}`}
         >
-          Meet Our Team
+          Our Features
         </h2>
 
         <div
-          ref={gridRef}
-          className={`team-grid stagger-children ${gridInView ? 'visible' : ''}`}
+          ref={featuresRef}
+          className={`features-grid stagger-children ${featuresInView ? 'visible' : ''}`}
         >
-          {teamData.map((member, idx) => (
-            <div key={idx} className="team-card">
-              <div className="team-img-wrap">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="team-image"
-                />
+          {featuresData.map((feature, index) => (
+            <div key={index} className="feature-card">
+              <div className="feature-icon">
+                {feature.icon}
               </div>
-              <h3 className="team-name">{member.name}</h3>
-              <p className="team-role">{member.role}</p>
-              <div className="team-social">
-                <a href={member.social.github} target="_blank" rel="noopener noreferrer">
-                  <FaGithub />
-                </a>
-                <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin />
-                </a>
-                <a href={member.social.email}>
-                  <FaEnvelope />
-                </a>
-              </div>
+              <h3 className="feature-title">{feature.title}</h3>
+              <p className="feature-desc">{feature.description}</p>
             </div>
           ))}
+        </div>
+
+        <div className="features-cta">
+          <RouterLink to="/signup">
+            <button className="btn btn-secondary">Sign Up</button>
+          </RouterLink>
+          <button className="btn btn-primary" onClick={handleDemo}>
+            Demo
+          </button>
         </div>
       </div>
     </section>
   )
 }
 
-export default Team
+export default Features
 
-/* ------------------------------------------------------ */
+/* ------------------------------------------------------- */
 
-/* src/components/Team.css */
-.team {
-  padding: 4rem 1rem;
+/* src/components/Features.css */
+.features {
   background: #121212;
   color: #eee;
+  padding: 4rem 1rem;
 }
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
 }
+
 .section-title {
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
+  font-size: 2.25rem;
+  margin-bottom: 2.5rem;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease;
+  animation: fadeInUp 0.6s forwards;
 }
 .section-title.visible {
-  opacity: 1;
-  transform: translateY(0);
+  animation-delay: 0.2s;
 }
 
-/* grid */
-.team-grid {
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2rem;
   opacity: 0;
-  transition: opacity 0.6s ease 0.3s;
 }
-.team-grid.visible {
-  opacity: 1;
+.features-grid.visible {
+  animation: fadeInUp 0.8s forwards;
+  animation-delay: 0.4s;
 }
 
-/* card */
-.team-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.stagger-children .feature-card {
+  background: #1b1b1b;
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
   text-align: center;
-}
-.stagger-children .team-card {
+  transition: transform 0.3s, box-shadow 0.3s;
   opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.6s forwards;
 }
-.stagger-children.visible .team-card:nth-child(1) { animation-delay: 0.2s; }
-.stagger-children.visible .team-card:nth-child(2) { animation-delay: 0.4s; }
-.stagger-children.visible .team-card:nth-child(3) { animation-delay: 0.6s; }
+.stagger-children.visible .feature-card:nth-child(1) { animation: fadeInUp 0.6s forwards 0.5s; }
+.stagger-children.visible .feature-card:nth-child(2) { animation: fadeInUp 0.6s forwards 0.6s; }
+.stagger-children.visible .feature-card:nth-child(3) { animation: fadeInUp 0.6s forwards 0.7s; }
+.stagger-children.visible .feature-card:nth-child(4) { animation: fadeInUp 0.6s forwards 0.8s; }
+.stagger-children.visible .feature-card:nth-child(5) { animation: fadeInUp 0.6s forwards 0.9s; }
+.stagger-children.visible .feature-card:nth-child(6) { animation: fadeInUp 0.6s forwards 1.0s; }
 
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
+.feature-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(0,212,98,0.3);
 }
 
-/* image */
-.team-img-wrap {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  overflow: hidden;
+.feature-icon {
+  font-size: 2.5rem;
+  color: #00d462;
   margin-bottom: 1rem;
+  transition: color 0.3s;
 }
-.team-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-.team-img-wrap:hover .team-image {
-  transform: scale(1.05);
+.feature-card:hover .feature-icon {
+  color: #fff;
 }
 
-/* text */
-.team-name {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0;
+.feature-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
 }
-.team-role {
-  color: #aaa;
-  font-size: 0.9rem;
-  margin: 0.25rem 0;
+.feature-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #ccc;
 }
 
-/* social icons */
-.team-social {
+.features-cta {
+  margin-top: 3rem;
+  text-align: center;
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-.team-social a {
-  color: #00d462;
-  font-size: 1.25rem;
-  transition: transform 0.2s;
-}
-.team-social a:hover {
-  transform: scale(1.2);
+  gap: 1rem;
 }
 
-
-// src/components/Hero.jsx
-import { useInView } from 'react-intersection-observer'
-import { Link as RouterLink } from 'react-router-dom'
-import heroVideo from '../assets/ch.gif'  // your large horizontal demo video/gif
-import './Hero.css'
-
-const Hero = () => {
-  const [titleRef,    titleInView]    = useInView({ triggerOnce: true, threshold: 0.1 })
-  const [videoRef,    videoInView]    = useInView({ triggerOnce: true, threshold: 0.1, delay: 200 })
-  const [taglineRef,  taglineInView]  = useInView({ triggerOnce: true, threshold: 0.1, delay: 400 })
-  const [subtitleRef, subtitleInView] = useInView({ triggerOnce: true, threshold: 0.1, delay: 600 })
-  const [buttonRef,   buttonInView]   = useInView({ triggerOnce: true, threshold: 0.1, delay: 800 })
-
-  return (
-    <section className="hero">
-      <div className="hero-container">
-        {/* Title */}
-        <h1
-          ref={titleRef}
-          className={`hero-title ${titleInView ? 'visible' : ''}`}
-        >
-          CampusHive
-        </h1>
-
-        {/* Video/GIF */}
-        <div
-          ref={videoRef}
-          className={`hero-video ${videoInView ? 'visible' : ''}`}
-        >
-          <img src={heroVideo} alt="CampusHive Demo" />
-        </div>
-
-        {/* Tagline */}
-        <p
-          ref={taglineRef}
-          className={`hero-tagline ${taglineInView ? 'visible' : ''}`}
-        >
-          Empowering FAST University’s Students and Faculty with Intelligent Campus Agents
-        </p>
-
-        {/* Subtitle */}
-        <p
-          ref={subtitleRef}
-          className={`hero-subtitle ${subtitleInView ? 'visible' : ''}`}
-        >
-          Automate announcements, quizzes, timetables, compliance checks and more—right from one smart interface.
-        </p>
-
-        {/* Call to Action */}
-        <div
-          ref={buttonRef}
-          className={`hero-cta ${buttonInView ? 'visible' : ''}`}
-        >
-          <RouterLink to="/signup">
-            <button className="btn btn-primary">
-              Get Started
-            </button>
-          </RouterLink>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-export default Hero
-
-/* ------------------------------------------------------ */
-
-/* src/components/Hero.css */
-.hero {
-  background: #121212;
-  color: #eee;
-  padding: 4rem 1rem;
-}
-
-.hero-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.hero-title {
-  font-size: 3rem;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease;
-}
-.hero-title.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero-video {
-  width: 100%;
-  max-width: 900px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease 0.2s;
-}
-.hero-video.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.hero-video img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-.hero-tagline {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: #00d462;
-  text-align: center;
-  max-width: 800px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease 0.4s;
-}
-.hero-tagline.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero-subtitle {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  text-align: center;
-  max-width: 800px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease 0.6s;
-}
-.hero-subtitle.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero-cta {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease 0.8s;
-}
-.hero-cta.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.hero-cta .btn {
-  padding: 0.8rem 2rem;
+.btn {
+  padding: 0.75rem 1.75rem;
   font-size: 1rem;
-  background: #00d462;
-  border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: background 0.3s, transform 0.2s;
 }
-.hero-cta .btn:hover {
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #00d462;
+  color: #00d462;
+}
+.btn-secondary:hover {
+  background: #00d462;
+  color: #121212;
+}
+.btn-primary {
+  background: #00d462;
+  border: none;
+  color: #121212;
+}
+.btn-primary:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(0, 212, 98, 0.4);
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .hero-container {
-    gap: 1.5rem;
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
   }
-  .hero-title {
-    font-size: 2.5rem;
-  }
-  .hero-tagline {
-    font-size: 1.3rem;
+  .features-cta {
+    flex-direction: column;
   }
 }

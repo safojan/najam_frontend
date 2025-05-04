@@ -1,82 +1,81 @@
 import { useState, useEffect } from 'react'
-import { Link as ScrollLink } from 'react-scroll'
+import { Link as ScrollLink, animateScroll } from 'react-scroll'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import './Navbar.css'
+
+const NAV_HEIGHT = 64
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
 
-  const toggleMenu = () => setMenuOpen(!menuOpen)
-  const closeMenu = () => setMenuOpen(false)
+  const toggleMenu = () => setMenuOpen((o) => !o)
+  const closeMenu  = () => setMenuOpen(false)
+  const scrollToTop = () => {
+    animateScroll.scrollToTop({ duration: 400 })
+    closeMenu()
+  }
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
-      }
+    const onScroll = () => {
+      setScrolled(window.scrollY > NAV_HEIGHT)
     }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const isHomePage = location.pathname === '/'
+  const isHome = location.pathname === '/'
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="container navbar-container">
-        <div className="logo">
-          <RouterLink to="/">
-            <span className="campus">Campus</span>
-            <span className="hive">Hive</span>
-          </RouterLink>
+    <>
+      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <div className="container navbar-container">
+          <div className="logo" onClick={scrollToTop}>
+            <RouterLink to="/">
+              <span className="campus">Campus</span>
+              <span className="hive">Hive</span>
+            </RouterLink>
+          </div>
+
+          <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
+            <ul>
+              {isHome ? (
+                ['product','features','team','contact'].map((sec) => (
+                  <li key={sec}>
+                    <ScrollLink
+                      to={sec}
+                      spy={true}
+                      smooth={true}
+                      offset={-NAV_HEIGHT + 1}
+                      duration={500}
+                      activeClass="active"
+                      onClick={closeMenu}
+                    >
+                      {sec.charAt(0).toUpperCase() + sec.slice(1)}
+                    </ScrollLink>
+                  </li>
+                ))
+              ) : (
+                <li>
+                  <RouterLink to="/" onClick={closeMenu}>
+                    Home
+                  </RouterLink>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          <div className="mobile-menu-btn" onClick={toggleMenu}>
+            {menuOpen ? <FaTimes /> : <FaBars />}
+          </div>
         </div>
-        
-        <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
-          <ul>
-            {isHomePage ? (
-              <>
-                <li>
-                  <ScrollLink to="product" smooth={true} duration={500} onClick={closeMenu}>
-                    Product
-                  </ScrollLink>
-                </li>
-                <li>
-                  <ScrollLink to="features" smooth={true} duration={500} onClick={closeMenu}>
-                    Features
-                  </ScrollLink>
-                </li>
-                <li>
-                  <ScrollLink to="team" smooth={true} duration={500} onClick={closeMenu}>
-                    Team
-                  </ScrollLink>
-                </li>
-                <li>
-                  <ScrollLink to="contact" smooth={true} duration={500} onClick={closeMenu}>
-                    Contact
-                  </ScrollLink>
-                </li>
-              </>
-            ) : (
-              <li>
-                <RouterLink to="/" onClick={closeMenu}>
-                  Home
-                </RouterLink>
-              </li>
-            )}
-          </ul>
-        </div>
-        
-        <div className="mobile-menu-btn" onClick={toggleMenu}>
-          {menuOpen ? <FaTimes /> : <FaBars />}
-        </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* push content below fixed navbar */}
+      <div style={{ height: NAV_HEIGHT }} />
+    </>
   )
 }
 
