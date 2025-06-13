@@ -1,4 +1,3 @@
-// src/components/Features.jsx
 import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
@@ -16,32 +15,32 @@ const featuresData = [
   {
     icon: <FaBolt />,
     title: 'Exam Gen',
-    description: 'Automatically generate and customize exams with AI-powered question banks.'
+    description: 'Automatically generate and customize exams with AI-powered question banks. (12 min)',
   },
   {
     icon: <FaShieldAlt />,
     title: 'Faculty Info',
-    description: 'Instant access to faculty profiles, publications, and office hours.'
+    description: 'Instant access to faculty profiles, publications, and office hours. (10 min)',
   },
   {
     icon: <FaChartBar />,
     title: 'Real-Time Monitoring',
-    description: 'Get live alerts and analytics on campus activities and resource usage.'
+    description: 'Get live alerts and analytics on campus activities and resource usage. (15 min)',
   },
   {
     icon: <FaSearch />,
     title: 'Instant Analysis',
-    description: 'Search and analyze data trends across courses, attendance, and exams.'
+    description: 'Search and analyze data trends across courses, attendance, and exams. (8 min)',
   },
   {
     icon: <FaLock />,
     title: 'Secure Transactions',
-    description: 'Encrypted data handling for all student records and financial transactions.'
+    description: 'Encrypted data handling for all student records and financial transactions. (12 min)',
   },
   {
     icon: <FaServer />,
     title: 'Cloud Integration',
-    description: 'Seamless cloud backup and restore for all university databases.'
+    description: 'Seamless cloud backup and restore for all university databases. (14 min)',
   }
 ]
 
@@ -51,7 +50,6 @@ const Features = () => {
   const navigate = useNavigate()
 
   const handleDemo = () => {
-    // limited demo access flag
     navigate('/chat?demo=true')
   }
 
@@ -60,23 +58,22 @@ const Features = () => {
       <div className="container">
         <h2
           ref={titleRef}
-          className={`section-title fade-in ${titleInView ? 'visible' : ''}`}
+          className={`section-title ${titleInView ? 'visible' : ''}`}
         >
           Our Features
         </h2>
 
         <div
           ref={featuresRef}
-          className={`features-grid stagger-children ${featuresInView ? 'visible' : ''}`}
+          className={`features-grid ${featuresInView ? 'visible' : ''}`}
         >
           {featuresData.map((feature, index) => (
-            <div key={index} className="feature-card">
-              <div className="feature-icon">
-                {feature.icon}
-              </div>
-              <h3 className="feature-title">{feature.title}</h3>
-              <p className="feature-desc">{feature.description}</p>
-            </div>
+            <FeatureCard
+              key={index}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+            />
           ))}
         </div>
 
@@ -93,5 +90,18 @@ const Features = () => {
   )
 }
 
-export default Features
+const FeatureCard = ({ icon, title, description }) => {
+  return (
+    <div className="feature-card">
+      <div className="card-content">
+        <div className="card-icon">{icon}</div>
+        <h3 className="card-title">{title}</h3>
+      </div>
+      <div className="card-hover">
+        <p className="card-description">{description}</p>
+      </div>
+    </div>
+  )
+}
 
+export default Features
